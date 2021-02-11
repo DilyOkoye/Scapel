@@ -8,6 +8,6 @@ namespace Scapel.Domain.AssessmentAggregate
 
     public interface IAssessmentRepository : IGenericRepository<Assessment>
     {
-        IEnumerable<Assessment> GetAnswerById(int Id);
+        IEnumerable<Assessment> GetAssessmentById(int Id);
     }
 }

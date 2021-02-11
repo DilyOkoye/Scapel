@@ -10,14 +10,18 @@ using Scapel.Repository.Implementations;
 using Scapel.Domain.Interfaces;
 using AutoMapper;
 using Scapel.Repository.MappingConfigurations;
+using Microsoft.Extensions.Options;
+using Scapel.Domain.Utilities;
 
 namespace Scapel.Repository.Repositories
 {
     public class UserProfileRepository : GenericRepository<UserProfile>, IUserProfileRepository
     {
+        private readonly IOptions<Configurations> config;
 
-        public UserProfileRepository(ScapelContext context) : base(context)
+        public UserProfileRepository(ScapelContext context, IOptions<Configurations> config) : base(context)
         {
+            this.config = config;
         }
 
         public async Task<UserProfile> GetUserForView(int Id)
@@ -37,7 +41,7 @@ namespace Scapel.Repository.Repositories
             }
             return new UserProfile();
         }
-
+        
 
         public async Task<int> DeleteUser(int Id)
         {
@@ -68,6 +72,10 @@ namespace Scapel.Repository.Repositories
         protected virtual async Task Create(UserProfileDto input)
         {
             UserProfile userDto = MappingProfile.MappingConfigurationSetups().Map<UserProfile>(input);
+            input.Password = Cryptors.GetSHAHashData(input.Password);
+            input.IsLockoutEnabled = 0;
+            input.ShouldChangePasswordOnNextLogin = 1;
+            input.AccessFailedCount = 0;
             _context.UserProfile.Add(userDto);
            await  _context.SaveChangesAsync();
            
@@ -85,10 +93,9 @@ namespace Scapel.Repository.Repositories
            
         }
 
-
         public List<UserProfileDto> GetAllUsers(UserProfileDto input)
         {
-           var allUsers = _context.UserProfile.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
+            var allUsers = _context.UserProfile.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
 
             // Map Records
             List<UserProfileDto> userDto = MappingProfile.MappingConfigurationSetups().Map<List<UserProfileDto>>(allUsers);
@@ -108,7 +115,7 @@ namespace Scapel.Repository.Repositories
                 ).ToList();
 
             }
-            return  userDto;
+            return userDto;
 
         }
 
@@ -141,8 +148,7 @@ namespace Scapel.Repository.Repositories
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.FirstName).ToList()
                                                                                                  : data.OrderBy(p => p.FirstName).ToList();
                         break;
-
-
+                     
                     case "3":
 
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LastName).ToList()
@@ -160,8 +166,8 @@ namespace Scapel.Repository.Repositories
                     default:
 
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.PhoneNumber).ToList()
-                                                                                                 : data.OrderBy(p => p.PhoneNumber).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.UserName).ToList()
+                                                                                                 : data.OrderBy(p => p.UserName).ToList();
                         break;
                 }
             }
@@ -174,6 +180,116 @@ namespace Scapel.Repository.Repositories
             // info.
             return lst;
         }
+
+        public async Task<LoginResponseDto> AutheticateUser(LoginRequestDto input)
+        {
+
+            string uname = string.Empty;
+            string pass = string.Empty;
+            var returnProp = new LoginResponseDto();
+            UserProfile userProfile = null;
+            try
+            {
+                try
+                {
+                    userProfile = await _context.UserProfile.Where(p => p.UserName.ToUpper().Equals(input.Username.ToUpper().Trim())).FirstOrDefaultAsync();
+                }
+                catch (Exception ex)
+                {
+                    returnProp.ResponseCode = 400;
+                    returnProp.ResponseText = string.Format("Failure to Authenticate Information. Please contact {0} local contact center", config.Value.CompanyName);                   
+                    return returnProp;
+
+                }
+                if (userProfile == null)
+                {
+
+                    returnProp.ResponseCode = 400;
+                    returnProp.ResponseText = string.Format("User Credentials Does Not Exist. Please contact {0}  contact center", config.Value.CompanyName);
+                    return returnProp;
+
+                }
+
+               
+                if (userProfile.AccessFailedCount >= Convert.ToInt32(config.Value.LoginCount))
+                {
+                    userProfile.AccessFailedCount = 1;
+                    _context.UserProfile.Update(userProfile);
+                    await _context.SaveChangesAsync();
+
+                    returnProp.ResponseCode = 400;
+                    returnProp.ResponseText = string.Format("User Locked. Contact administrator");
+                    return returnProp;
+                }
+               
+
+
+                string compare = Cryptors.GetSHAHashData(input.Password);
+                var com =  await _context.UserProfile.Where(i => i.Password.Trim() == compare.Trim() && i.UserName.Trim().ToUpper() == input.Username.Trim().ToUpper()).FirstOrDefaultAsync();
+                if (com != null)
+                {
+
+                    if (userProfile.ShouldChangePasswordOnNextLogin == 1)
+                    {
+
+                        returnProp.ResponseCode = 2;
+                        returnProp.ResponseText = string.Format("Enforce Password Change");                       
+                        return returnProp;
+                    }
+                       
+                    returnProp.ResponseCode = 0;
+                    returnProp.ResponseText = "Login Successful";
+                    returnProp.EnforcePassChange = 0;
+                    returnProp.RoleId = userProfile.RoleId;
+                    returnProp.FullName = string.Format("{0} {1}", userProfile.FirstName, userProfile.LastName);
+                    returnProp.UserId = userProfile.Id;
+
+                    userProfile.IsLockoutEnabled = 0;
+                    userProfile.AccessFailedCount = 0;
+                    userProfile.ShouldChangePasswordOnNextLogin = 0;
+                    _context.UserProfile.Update(userProfile);
+                    await _context.SaveChangesAsync();
+
+                }
+                else
+                {
+                    if (userProfile.AccessFailedCount >= Convert.ToInt32(config.Value.LoginCount))
+                    {
+                        userProfile.AccessFailedCount = 1;
+                        _context.UserProfile.Update(userProfile);
+                        await _context.SaveChangesAsync();
+
+                        returnProp.ResponseCode = 400;
+                        returnProp.ResponseText = string.Format("User Locked. Contact administrator");
+                        return returnProp;
+                    }
+                    if (userProfile.AccessFailedCount < Convert.ToInt32(config.Value.LoginCount))
+                    {
+
+                        userProfile.AccessFailedCount = Convert.ToInt16(userProfile.AccessFailedCount + 1);
+                        _context.UserProfile.Update(userProfile);
+                        await _context.SaveChangesAsync();
+
+                        returnProp.ResponseCode = 3;
+                        returnProp.ResponseText = "Invalid Login Id/Password.Enter Password (" + userProfile.AccessFailedCount + "/" + Convert.ToInt32(config.Value.LoginCount) + ")";
+                        return returnProp;                        
+                    }
+                }
+               
+
+            }
+
+            catch (Exception ex)
+            {
+                returnProp.ResponseCode = 400;
+                returnProp.ResponseText = string.Format("Failure to Authenticate Information. Please contact {0} local contact center", config.Value.CompanyName);
+                return returnProp;
+            }
+            return returnProp;
+
+
+        }
+
 
 
     }

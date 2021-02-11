@@ -16,13 +16,21 @@ using Scapel.Repository.Injections;
 using Microsoft.OpenApi.Models;
 using Scapel.Repository.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
+using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
+using Scapel.Domain.Utilities;
 
 namespace Scapel.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfigurationRoot ConfigurationSetUp { get; set; }
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            ConfigurationSetUp = builder.Build();
             Configuration = configuration;
         }
 
@@ -31,8 +39,7 @@ namespace Scapel.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           // services.AddDbContext<ScapelContext>(opt => opt
-              // .UseSqlServer("Server=localhost; Database=Scapel;User Id=sa; Password=myPassw0rd_12Monica;"));
+            services.Configure<Configurations>(Configuration.GetSection("ScapelConfigurations"));
 
             services.AddDbContext<ScapelContext>(
     options =>

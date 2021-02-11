@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Scapel.Domain.RatingAggregate.Dtos;
 using Scapel.Domain.UserProfileAggregate.Dtos;
 
 namespace Scapel.Repository.MappingConfigurations
@@ -15,6 +16,10 @@ namespace Scapel.Repository.MappingConfigurations
                 cfg.CreateMap<UserProfileDto, UserProfile>();
                 cfg.CreateMap<UserProfile, UserProfileDto>();
                 cfg.CreateMap<List<UserProfile>, List<UserProfileDto>>();
+                //Rating
+                cfg.CreateMap<RatingDto, Rating>();
+                cfg.CreateMap<Rating, RatingDto>();
+                cfg.CreateMap<List<Rating>, List<RatingDto>>();
             });
 
             var mapper = new Mapper(config);

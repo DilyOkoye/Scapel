@@ -13,5 +13,6 @@ namespace Scapel.Domain.UserProfileAggregate
       Task<UserProfile> GetUserForEdit(UserProfileDto input);
       Task<int> DeleteUser(int Id);
       List<UserProfileDto> GetAllUsers(UserProfileDto input);
+      Task<LoginResponseDto> AutheticateUser(LoginRequestDto input);
     }
 }

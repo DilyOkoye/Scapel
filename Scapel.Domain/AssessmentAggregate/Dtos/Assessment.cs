@@ -1,10 +1,14 @@
 ﻿using System;
 namespace Scapel.Domain.AssessmentAggregate.Dtos
 {
-    public class Assessment
+    public partial class Assessment
     {
-        public Assessment()
-        {
-        }
+        public int Id { get; set; }
+        public int? QuestionId { get; set; }
+        public int? AnswerId { get; set; }
+        public string Answers { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public int? UserId { get; set; }
+        public string Status { get; set; }
     }
 }

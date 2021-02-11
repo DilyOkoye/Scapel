@@ -18,7 +18,7 @@ namespace Scapel.Repository.Repositories
 
         public IEnumerable<Answer> GetAnswerById(int Id)
         {
-            return _context.Answers.Where(x => x.Id == Id);
+            return _context.Answer.Where(x => x.Id == Id);
         }
 
     }

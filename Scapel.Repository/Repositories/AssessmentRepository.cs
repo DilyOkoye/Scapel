@@ -5,21 +5,23 @@ using Scapel.Domain.AnswerAggregate;
 using Scapel.Domain.AnswerAggregate.Dtos;
 using Scapel.Repository.DatabaseContext;
 using Scapel.Repository.Implementations;
+using Scapel.Domain.AssessmentAggregate;
+using Scapel.Domain.AssessmentAggregate.Dtos;
 
 namespace Scapel.Repository.Repositories
 {
   
 
-    public class AssessmentRepository : GenericRepository<Answer>, IAssessmentRepository
+    public class AssessmentRepository : GenericRepository<Assessment>, IAssessmentRepository
     {
-        public IAssessmentRepository(ScapelContext context) : base(context)
+        public AssessmentRepository(ScapelContext context) : base(context)
         {
 
         }
 
-        public IEnumerable<Answer> GetAnswerById(int Id)
+        public IEnumerable<Assessment> GetAssessmentById(int Id)
         {
-            return _context.Answers.Where(x => x.Id == Id);
+            return _context.Assessment.Where(x => x.Id == Id);
         }
 
     }

@@ -8,6 +8,6 @@ namespace Scapel.Domain.TagAggregate
     
     public interface ITagRepository : IGenericRepository<Tag>
     {
-        IEnumerable<Tag> GetAnswerById(int Id);
+        IEnumerable<Tag> GetTagById(int Id);
     }
 }

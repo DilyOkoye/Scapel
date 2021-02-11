@@ -8,6 +8,6 @@ namespace Scapel.Domain.LeaderboardAggregate
   
     public interface ILeaderboardRepository : IGenericRepository<Leaderboard>
     {
-        IEnumerable<Leaderboard> GetAnswerById(int Id);
+        IEnumerable<Leaderboard> GetLeaderboardById(int Id);
     }
 }

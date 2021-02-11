@@ -6,9 +6,8 @@ using Scapel.Domain.OptionAggregate.Dtos;
 namespace Scapel.Domain.OptionAggregate
 {
     
-
     public interface IOptionRepository : IGenericRepository<Option>
     {
-        IEnumerable<Option> GetAnswerById(int Id);
+        IEnumerable<Option> GetOptionById(int Id);
     }
 }

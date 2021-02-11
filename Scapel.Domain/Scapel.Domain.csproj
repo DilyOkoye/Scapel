@@ -21,7 +21,7 @@
     <Folder Include="TopicCategoryAggregate\" />
     <Folder Include="TopicAggregate\" />
     <Folder Include="TrainingCategoryAggregate\" />
-    <Folder Include="TrainingVideosAggregate\" />
+    <Folder Include="TrainingVideoAggregate\" />
     <Folder Include="AssessmentAggregate\Dtos\" />
     <Folder Include="CommentAggregate\Dtos\" />
     <Folder Include="LeaderboardAggregate\Dtos\" />
@@ -33,7 +33,16 @@
     <Folder Include="TopicAggregate\Dtos\" />
     <Folder Include="TopicCategoryAggregate\Dtos\" />
     <Folder Include="TrainingCategoryAggregate\Dtos\" />
-    <Folder Include="TrainingVideosAggregate\Dtos\" />
+    <Folder Include="VoteAggregate\" />
+    <Folder Include="VoteAggregate\Dtos\" />
+    <Folder Include="VideoCategoryAggregate\" />
+    <Folder Include="VideoAnalysisAggregate\" />
+    <Folder Include="VideoAnalysisAggregate\Dtos\" />
+    <Folder Include="VideoCategoryAggregate\Dtos\" />
+    <Folder Include="QuestionAggregate\" />
+    <Folder Include="QuestionAggregate\Dtos\" />
+    <Folder Include="TrainingVideoAggregate\Dtos\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
@@ -41,5 +50,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 </Project>

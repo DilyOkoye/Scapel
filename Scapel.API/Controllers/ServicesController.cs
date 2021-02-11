@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Scapel.Domain.Interfaces;
@@ -20,17 +21,22 @@ namespace Scapel.API.Controllers
             _unitOfWork = unitOfWork;
         }
         #region
-        // GET: /<controller>/
-        //[HttpGet]
-        //public async Task<UserProfile> GetUsersView(int Id)
-        //{
-        //    return await _unitOfWork.UserProfiles.GetUserByForView(Id);
-        //}
+        //GET: /<controller>/
+        [HttpGet]
+        //[SwaggerResponse(HttpStatusCode.OK, "OK", typeof(User))]
+        //[SwaggerResponse(HttpStatusCode.BadRequest, "Error", typeof(string))]
+        //[SwaggerResponse(HttpStatusCode.NotFound, "Notfound", typeof(string))]
+        [Route("GetUsersView")]
+        public async Task<UserProfile> GetUsersView(int Id)
+        {
+            return await _unitOfWork.UserProfiles.GetUserForView(Id);
+        }
 
         [HttpPost]
-        public async Task<int> CreateOrEditUsers(UserProfileDto input)
+        [Route("CreateOrEditUsers")]
+        public async Task CreateOrEditUsers(UserProfileDto input)
         {
-            return await _unitOfWork.UserProfiles.CreateOrEditUsers(input);
+             await _unitOfWork.UserProfiles.CreateOrEditUsers(input);
         }
         #endregion
 

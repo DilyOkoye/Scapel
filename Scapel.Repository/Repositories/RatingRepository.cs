@@ -46,7 +46,6 @@ namespace Scapel.Repository.Repositories
             return new RatingDto();
         }
 
-
         public async Task<int> DeleteRating(int Id)
         {
             var ratings = await _context.Rating.Where(x => x.Id == Id).FirstOrDefaultAsync();

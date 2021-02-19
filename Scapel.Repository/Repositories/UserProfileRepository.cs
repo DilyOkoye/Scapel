@@ -24,12 +24,18 @@ namespace Scapel.Repository.Repositories
             this.config = config;
         }
 
-        public async Task<UserProfile> GetUserForView(int Id)
+        public async Task<UserProfileDto> GetUserForView(int Id)
         {
-            return await _context.UserProfile.Where(x => x.Id == Id).FirstOrDefaultAsync();
+
+            var users = await _context.UserProfile.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (users != null)
+            {
+                return MappingProfile.MappingConfigurationSetups().Map<UserProfileDto>(users);
+            }
+            return new UserProfileDto();
         }
 
-        public async Task<UserProfile> GetUserForEdit(UserProfileDto input)
+        public async Task<UserProfileDto> GetUserForEdit(UserProfileDto input)
         {
             var users = await _context.UserProfile.Where(x => x.Id == input.Id).FirstOrDefaultAsync();
             if (users != null)
@@ -37,9 +43,11 @@ namespace Scapel.Repository.Repositories
                 UserProfile userDto = MappingProfile.MappingConfigurationSetups().Map<UserProfile>(input);
                 _context.UserProfile.Update(userDto);
                 await _context.SaveChangesAsync();
-                return userDto;
+                return MappingProfile.MappingConfigurationSetups().Map<UserProfileDto>(userDto);
             }
-            return new UserProfile();
+            return new UserProfileDto();
+
+           
         }
         
 

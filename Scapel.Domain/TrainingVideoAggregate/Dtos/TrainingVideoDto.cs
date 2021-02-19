@@ -5,7 +5,7 @@ namespace Scapel.Domain.TrainingVideoAggregate.Dtos
 {
     public class TrainingVideoDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int? TrainingCategory { get; set; }
         public int? VideoCategory { get; set; }
         public string ImagePath { get; set; }

@@ -5,7 +5,7 @@ namespace Scapel.Domain.RoleAggregate.Dtos
 {
     public class RoleDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public DateTime? DateCreated { get; set; }
         public int? UserId { get; set; }

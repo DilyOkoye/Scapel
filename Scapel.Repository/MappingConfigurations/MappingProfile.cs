@@ -10,6 +10,8 @@ using Scapel.Domain.TrainingCategoryAggregate.Dtos;
 using Scapel.Domain.TrainingVideoAggregate.Dtos;
 using Scapel.Domain.UserProfileAggregate.Dtos;
 using Scapel.Domain.VideoAnalysisAggregate.Dtos;
+using Scapel.Domain.VideoCategoryAggregate.Dtos;
+using Scapel.Domain.VoteAggregate.Dtos;
 
 namespace Scapel.Repository.MappingConfigurations
 {
@@ -63,6 +65,17 @@ namespace Scapel.Repository.MappingConfigurations
                 cfg.CreateMap<VideoAnalysisDto, VideoAnalysis>();
                 cfg.CreateMap<VideoAnalysis, VideoAnalysisDto>();
                 cfg.CreateMap<List<VideoAnalysis>, List<VideoAnalysisDto>>();
+
+                //VideoCategory
+                cfg.CreateMap<VideoCategoryDto, VideoCategory>();
+                cfg.CreateMap<VideoCategory, VideoCategoryDto>();
+                cfg.CreateMap<List<VideoCategory>, List<VideoCategoryDto>>();
+
+                //Vote
+                cfg.CreateMap<VoteDto, Vote>();
+                cfg.CreateMap<Vote, VoteDto>();
+                cfg.CreateMap<List<Vote>, List<VoteDto>>();
+
 
             });
 

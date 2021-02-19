@@ -8,9 +8,9 @@ namespace Scapel.Domain.UserProfileAggregate
 {
     public interface IUserProfileRepository : IGenericRepository<UserProfile>
     {
-      Task <UserProfile> GetUserForView(int Id);
+      Task <UserProfileDto> GetUserForView(int Id);
       Task CreateOrEditUsers(UserProfileDto input);
-      Task<UserProfile> GetUserForEdit(UserProfileDto input);
+      Task<UserProfileDto> GetUserForEdit(UserProfileDto input);
       Task<int> DeleteUser(int Id);
       List<UserProfileDto> GetAllUsers(UserProfileDto input);
       Task<LoginResponseDto> AutheticateUser(LoginRequestDto input);

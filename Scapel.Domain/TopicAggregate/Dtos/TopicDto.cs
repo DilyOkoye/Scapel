@@ -5,7 +5,7 @@ namespace Scapel.Domain.TopicAggregate.Dtos
 {
     public class TopicDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int? TopicCategoryId { get; set; }
         public string Name { get; set; }
         public string ContentType { get; set; }

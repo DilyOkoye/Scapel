@@ -1,9 +1,9 @@
 ﻿using System;
 using Scapel.Domain.Utilities;
 
-namespace Scapel.Domain.TrainingCategoryAggregate.Dtos
+namespace Scapel.Domain.VideoCategoryAggregate.Dtos
 {
-    public class TrainingCategoryDto
+    public class VideoCategoryDto
     {
         public int? Id { get; set; }
         public string Name { get; set; }

@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Scapel.Domain.AnswerAggregate.Dtos;
+using Scapel.Domain.AssessmentAggregate.Dtos;
+using Scapel.Domain.CommentAggregate.Dtos;
+using Scapel.Domain.LeaderboardAggregate.Dtos;
+using Scapel.Domain.OptionAggregate.Dtos;
+using Scapel.Domain.QuestionAggregate.Dtos;
+using Scapel.Domain.QuestionCategoryAggregate.Dtos;
 using Scapel.Domain.RatingAggregate.Dtos;
 using Scapel.Domain.RoleAggregate.Dtos;
 using Scapel.Domain.TagAggregate.Dtos;
@@ -75,6 +82,48 @@ namespace Scapel.Repository.MappingConfigurations
                 cfg.CreateMap<VoteDto, Vote>();
                 cfg.CreateMap<Vote, VoteDto>();
                 cfg.CreateMap<List<Vote>, List<VoteDto>>();
+
+
+                //Answer
+                cfg.CreateMap<AnswerDto, Answer>();
+                cfg.CreateMap<Answer, AnswerDto>();
+                cfg.CreateMap<List<Answer>, List<AnswerDto>>();
+
+
+                //Assessment
+                cfg.CreateMap<AssessmentDto, Assessment>();
+                cfg.CreateMap<Assessment, AssessmentDto>();
+                cfg.CreateMap<List<Assessment>, List<AssessmentDto>>();
+
+
+                //Comment
+                cfg.CreateMap<CommentDto, Comment>();
+                cfg.CreateMap<Comment, CommentDto>();
+                cfg.CreateMap<List<Comment>, List<CommentDto>>();
+
+
+                //Leaderboard
+                cfg.CreateMap<LeaderboardDto, Leaderboard>();
+                cfg.CreateMap<Leaderboard, LeaderboardDto>();
+                cfg.CreateMap<List<Leaderboard>, List<LeaderboardDto>>();
+
+
+                //Option
+                cfg.CreateMap<OptionDto, Option>();
+                cfg.CreateMap<Option, OptionDto>();
+                cfg.CreateMap<List<Option>, List<OptionDto>>();
+
+
+                //QuestionCategory
+                cfg.CreateMap<QuestionCategoryDto, QuestionCategory>();
+                cfg.CreateMap<QuestionCategory, QuestionCategoryDto>();
+                cfg.CreateMap<List<QuestionCategory>, List<QuestionCategoryDto>>();
+
+
+                //Question
+                cfg.CreateMap<QuestionDto, Question>();
+                cfg.CreateMap<Question, QuestionDto>();
+                cfg.CreateMap<List<Question>, List<QuestionDto>>();
 
 
             });

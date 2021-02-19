@@ -93,8 +93,7 @@ namespace Scapel.Repository.Repositories
 
         public List<RoleDto> GetAllRole(RoleDto input)
         {
-            var allRoles = _context.Role.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
-
+            
             var query = (from rating in _context.Role.ToList()
                          select new RoleDto
                          {                           
@@ -107,7 +106,7 @@ namespace Scapel.Repository.Repositories
                          }).ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
 
             // Map Records
-            List<RoleDto> roleDto = MappingProfile.MappingConfigurationSetups().Map<List<RoleDto>>(allRoles);
+            List<RoleDto> roleDto = MappingProfile.MappingConfigurationSetups().Map<List<RoleDto>>(query);
 
             //Apply Sort
             roleDto = Sort(input.PagedResultDto.Sort, input.PagedResultDto.SortOrder, roleDto);

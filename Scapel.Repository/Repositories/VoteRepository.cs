@@ -94,8 +94,7 @@ namespace Scapel.Repository.Repositories
 
         public List<VoteDto> GetAllVote(VoteDto input)
         {
-            var allRatings = _context.Vote.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
-
+           
             var query = (from votes in _context.Vote.ToList()
                          join topic in _context.Topic.ToList()
                               on votes.TopicId equals topic.Id
@@ -113,7 +112,7 @@ namespace Scapel.Repository.Repositories
                          }).ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
 
             // Map Records
-            List<VoteDto> ratingDto = MappingProfile.MappingConfigurationSetups().Map<List<VoteDto>>(allRatings);
+            List<VoteDto> ratingDto = MappingProfile.MappingConfigurationSetups().Map<List<VoteDto>>(query);
 
             //Apply Sort
             ratingDto = Sort(input.PagedResultDto.Sort, input.PagedResultDto.SortOrder, ratingDto);

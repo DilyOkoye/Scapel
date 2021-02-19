@@ -1,19 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Scapel.Domain.Interfaces;
+using Scapel.Domain.QuestionCategoryAggregate.Dtos;
 
 namespace Scapel.API.Controllers
 {
-    public class QuestionCategoryController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class QuestionCategoryController : ControllerBase
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        private readonly IUnitOfWork _unitOfWork;
+        public QuestionCategoryController(IUnitOfWork unitOfWork)
         {
-            return View();
+            _unitOfWork = unitOfWork;
+        }
+
+        //GET: /<controller>/
+        [HttpGet]
+        [Route("GetQuestionCategoryForView")]
+        public async Task<QuestionCategoryDto> GetQuestionCategoryForView(int Id)
+        {
+            return await _unitOfWork.QuestionCategorys.GetQuestionCategoryForView(Id);
+        }
+
+        [HttpPost]
+        [Route("CreateOrEditQuestionCategory")]
+        public async Task CreateOrEditQuestionCategory(QuestionCategoryDto input)
+        {
+            await _unitOfWork.QuestionCategorys.CreateOrEditQuestionCategory(input);
+        }
+
+        [HttpGet]
+        [Route("GetQuestionCategoryForEdit")]
+        public async Task GetQuestionCategoryForEdit(QuestionCategoryDto input)
+        {
+            await _unitOfWork.QuestionCategorys.GetQuestionCategoryForEdit(input);
+        }
+
+        [HttpPost]
+        [Route("DeleteQuestionCategory")]
+        public async Task DeleteQuestionCategory(int Id)
+        {
+            await _unitOfWork.QuestionCategorys.DeleteQuestionCategory(Id);
+        }
+
+        [HttpGet]
+        [Route("GetAllQuestionCategory")]
+        public List<QuestionCategoryDto> GetAllQuestionCategory(QuestionCategoryDto input)
+        {
+            return _unitOfWork.QuestionCategorys.GetAllQuestionCategory(input);
         }
     }
 }

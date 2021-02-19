@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Scapel.Domain.TopicAggregate.Dtos;
+using Scapel.Domain.UserProfileAggregate.Dtos;
+using System;
+using System.Collections.Generic;
+
 namespace Scapel.Domain.CommentAggregate.Dtos
 {
     public partial class Comment

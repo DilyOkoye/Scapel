@@ -94,8 +94,7 @@ namespace Scapel.Repository.Repositories
 
         public List<RatingDto> GetAllRating(RatingDto input)
         {
-            var allRatings = _context.Rating.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
-
+           
             var query = (from rating in _context.Rating.ToList()
                         join topic in _context.Topic.ToList()
                              on rating.TopicId equals topic.Id
@@ -112,7 +111,7 @@ namespace Scapel.Repository.Repositories
                         }).ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
 
             // Map Records
-            List<RatingDto> ratingDto = MappingProfile.MappingConfigurationSetups().Map<List<RatingDto>>(allRatings);
+            List<RatingDto> ratingDto = MappingProfile.MappingConfigurationSetups().Map<List<RatingDto>>(query);
 
             //Apply Sort
             ratingDto = Sort(input.PagedResultDto.Sort, input.PagedResultDto.SortOrder, ratingDto);

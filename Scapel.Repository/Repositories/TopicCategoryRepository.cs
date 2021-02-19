@@ -94,8 +94,7 @@ namespace Scapel.Repository.Repositories
 
         public List<TopicCategoryDto> GetAllTopicCategory(TopicCategoryDto input)
         {
-            //  var allRatings = _context.Topic.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
-
+           
             var query = (from topic in _context.TopicCategory.ToList()
                          select new TopicCategoryDto
                          {

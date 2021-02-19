@@ -94,8 +94,7 @@ namespace Scapel.Repository.Repositories
 
         public List<TagDto> GetAllTag(TagDto input)
         {
-            var allRatings = _context.Tag.ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
-
+           
             var query = (from tags in _context.Tag.ToList()
                          join topic in _context.Topic.ToList()
                               on tags.TopicId equals topic.Id
@@ -112,7 +111,7 @@ namespace Scapel.Repository.Repositories
                          }).ToList().Skip((input.PagedResultDto.Page - 1) * input.PagedResultDto.SkipCount).Take(input.PagedResultDto.MaxResultCount);
 
             // Map Records
-            List<TagDto> ratingDto = MappingProfile.MappingConfigurationSetups().Map<List<TagDto>>(allRatings);
+            List<TagDto> ratingDto = MappingProfile.MappingConfigurationSetups().Map<List<TagDto>>(query);
 
             //Apply Sort
             ratingDto = Sort(input.PagedResultDto.Sort, input.PagedResultDto.SortOrder, ratingDto);

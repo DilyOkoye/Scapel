@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Scapel.Domain.AssessmentAggregate.Dtos
 {
-    public partial class Assessment
+    public class Assessment
     {
         public int Id { get; set; }
         public int? QuestionId { get; set; }

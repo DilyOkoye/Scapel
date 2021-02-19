@@ -9,7 +9,6 @@
     <Folder Include="UserProfileAggregate\Dtos\" />
     <Folder Include="Interfaces\" />
     <Folder Include="AnswerAggregate\" />
-    <Folder Include="AnswerAggregate\Dtos\" />
     <Folder Include="AssessmentAggregate\" />
     <Folder Include="CommentAggregate\" />
     <Folder Include="LeaderboardAggregate\" />
@@ -22,11 +21,8 @@
     <Folder Include="TopicAggregate\" />
     <Folder Include="TrainingCategoryAggregate\" />
     <Folder Include="TrainingVideoAggregate\" />
-    <Folder Include="AssessmentAggregate\Dtos\" />
-    <Folder Include="CommentAggregate\Dtos\" />
     <Folder Include="LeaderboardAggregate\Dtos\" />
     <Folder Include="OptionAggregate\Dtos\" />
-    <Folder Include="QuestionCategoryAggregate\Dtos\" />
     <Folder Include="RatingAggregate\Dtos\" />
     <Folder Include="RoleAggregate\Dtos\" />
     <Folder Include="TagAggregate\Dtos\" />
